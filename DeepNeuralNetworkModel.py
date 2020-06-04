@@ -1,14 +1,15 @@
 from keras.models import Sequential
-from keras.layers import Dense,Dropout,Flatten
-from keras.layers import Conv2D,MaxPool2D,ZeroPadding2D
+from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Conv2D, MaxPool2D, ZeroPadding2D
 from keras.optimizers import Adam
 
 
-def AlexNet(width,height,lr):
+def AlexNet(width, height, lr):
     model = Sequential()
 
     # Input layer is defined in the first convolutional layer (frames of WxH with 1 color channel)
-    model.add(Conv2D(filters=96, kernel_size=(11, 11), strides=(4, 4), activation='relu', input_shape=(width, height, 1)))
+    model.add(
+        Conv2D(filters=96, kernel_size=(11, 11), strides=(4, 4), activation='relu', input_shape=(width, height, 1)))
     model.add(MaxPool2D(pool_size=(3, 3), strides=(2, 2)))
     model.add(ZeroPadding2D(padding=(1, 1)))
 
