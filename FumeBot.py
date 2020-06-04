@@ -648,7 +648,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.infoDisplay.append(final_string)
 
     # Socket connection
-    def establish_connec2tion(self):  # Function to establish the connection (Called when connect is clicked)
+    def establish_connection(self):  # Function to establish the connection (Called when connect is clicked)
 
         self.update_connection_info_bar()  # update the display bar
 
