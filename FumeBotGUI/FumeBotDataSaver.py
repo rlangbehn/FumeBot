@@ -18,7 +18,7 @@ import cv2
 import numpy as np
 import datetime
 import threading
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 
 class FumeBotVideoSaver:  # For saving the video

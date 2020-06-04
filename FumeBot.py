@@ -15,9 +15,8 @@ import sys
 import cv2
 import time
 import datetime
-import ctypes
 import numpy as np
-from PyQt4 import QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from configparser import ConfigParser
 
 from FumeBotGUI.FumeBot_UI import Ui_mainWindow
@@ -26,7 +25,7 @@ from FumeBotGUI.FumeBotDNN import FumeBotDNN
 from FumeBotGUI.FumeBotSockComm import SockComm
 
 
-class MainWindow(QtGui.QMainWindow):
+class MainWindow(QtWidgets.QMainWindow):
 
     # Configuration file
     config_path="config.ini"
@@ -369,9 +368,6 @@ class MainWindow(QtGui.QMainWindow):
         self.port_img=8089  # Port for receiving image frames from
         self.port_data=8090  # Port for receiving data
 
-        # This shows the icon of the app instead of the python program icon (Only needed for window)
-        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(self.app_id)  # Will not work in Linux
-
         # Objects of the UI
         self.ui=Ui_mainWindow()
         self.ui.setupUi(self)
@@ -531,10 +527,10 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.smsAlertEnableCheckBox.stateChanged.connect(self.enable_sms_alert_checkbox_changed)
 
         # Connection for the main menu on the menu bar
-        self.ui.menuMenu.triggered[QtGui.QAction].connect(self.process_menu_trigger)
+        self.ui.menuMenu.triggered[QtWidgets.QAction].connect(self.process_menu_trigger)
 
         # Connection for the help menu
-        self.ui.menuHelp.triggered[QtGui.QAction].connect(self.process_help_trigger)
+        self.ui.menuHelp.triggered[QtWidgets.QAction].connect(self.process_help_trigger)
 
         # Connection for warning flasher timer signal
         self.warning_flasher_timer = QtCore.QTimer()
@@ -961,8 +957,8 @@ class MainWindow(QtGui.QMainWindow):
     @staticmethod
     def convert_frame_to_pix(frame_bgr): # Function to convert cv2 frame to pix format to be displayed in GUI
         frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)  # BGR to RGB
-        image = QtGui.QImage(frame_rgb, frame_rgb.shape[1], frame_rgb.shape[0], QtGui.QImage.Format_RGB888)
-        pixel = QtGui.QPixmap.fromImage(image)
+        image = QtWidgets.QImage(frame_rgb, frame_rgb.shape[1], frame_rgb.shape[0], QtWidgets.QImage.Format_RGB888)
+        pixel = QtWidgets.QPixmap.fromImage(image)
         return pixel  # The pix formatted image ready to be displayed
 
     def video_hud_display(self, frame_bgr):  # Function to display Heads Up Display (HUD) elements
@@ -2133,10 +2129,10 @@ class MainWindow(QtGui.QMainWindow):
             print("File does not exist")
 
     def browse_for_video_recording_file_path(self):
-        path_to_vid_rec_file=QtGui.QFileDialog.getExistingDirectory(parent=None,
+        path_to_vid_rec_file=QtWidgets.QFileDialog.getExistingDirectory(parent=None,
                                                                     caption="Select video recording save folder",
                                                                     directory=self.video_file_path,
-                                                                    options=QtGui.QFileDialog.ShowDirsOnly)
+                                                                    options=QtWidgets.QFileDialog.ShowDirsOnly)
 
         if not path_to_vid_rec_file == '':  # If path is not empty
             self.ui.videoFilePathLineEdit.setText(str(path_to_vid_rec_file))  # Set string to the selected folder path
@@ -2205,7 +2201,7 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.autoSaveSampleSpinBox.setValue(self.save_per_every)
 
     def open_training_data_file_location_and_select(self):  # Function to open the training file and select the file
-        selected_train_file_name=QtGui.QFileDialog.getOpenFileName(parent=None,
+        selected_train_file_name=QtWidgets.QFileDialog.getOpenFileName(parent=None,
                                                                    caption="Select a training data set numpy file",
                                                                    directory=self.train_file_path,
                                                                    filter="Numpy files(*.npy)",)
@@ -2217,11 +2213,11 @@ class MainWindow(QtGui.QMainWindow):
             self.ui.trainingFileNameLineEdit.setText(str(new_train_file_name))
 
     def browse_for_training_recording_file_path(self):
-        path_to_train_rec_file=QtGui.QFileDialog.getExistingDirectory(parent=None,
+        path_to_train_rec_file=QtWidgets.QFileDialog.getExistingDirectory(parent=None,
                                                                       caption="Select training data recording "
                                                                               "save folder",
                                                                       directory=self.train_file_path,
-                                                                      options=QtGui.QFileDialog.ShowDirsOnly)
+                                                                      options=QtWidgets.QFileDialog.ShowDirsOnly)
 
         if not path_to_train_rec_file == '':  # If path is not empty
             self.ui.trainingFilePathLineEdit.setText(str(path_to_train_rec_file))
@@ -2538,7 +2534,7 @@ class MainWindow(QtGui.QMainWindow):
 
                 # If the user pressed ok apply the parsed meta file dictionary to the main dictionary
                 # Update the GUI to display the new updated disabled key / order configuration
-                if retval == QtGui.QMessageBox.Ok:
+                if retval == QtWidgets.QMessageBox.Ok:
                     self.display_info(self.app_msg,"Applying the disabled key and order settings from meta file")
 
                     self.update_disabled_key_from_meta_file()  # The settings are applied from the meta file
@@ -2560,7 +2556,7 @@ class MainWindow(QtGui.QMainWindow):
 
             retval=self.show_create_key_cfg_file_warning() # Asking whether meta file should be created
 
-            if retval == QtGui.QMessageBox.Ok:
+            if retval == QtWidgets.QMessageBox.Ok:
                 self.train_data_saver.open_meta_file_write_only(file_name,file_path)
 
                 # The file is automatically closed inside the function
@@ -2608,10 +2604,10 @@ class MainWindow(QtGui.QMainWindow):
         self.ui.brakeOrderSpinBox.setValue(self.move_button_press_order_dict['BRAKE'])
 
     def show_key_cfg_mismatch_warning(self):  # Called when the key config does not match
-        msg = QtGui.QMessageBox()
+        msg = QtWidgets.QMessageBox()
 
-        msg.setIcon(QtGui.QMessageBox.Warning)
-        msg.setWindowIcon(QtGui.QIcon("bot_icon.jpg"))
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        msg.setWindowIcon(QtWidgets.QIcon("bot_icon.jpg"))
         msg.setWindowTitle("Key configuration mismatch warning")
         msg.setText("Key configuration mismatch detected. Do you want to use the key configuration "
                     "associated with the loaded numpy file?")
@@ -2622,16 +2618,16 @@ class MainWindow(QtGui.QMainWindow):
                                "associated  meta file to the same name otherwise incorrect key "
                                "configuration may be loaded.")
 
-        msg.setStandardButtons(QtGui.QMessageBox.Cancel | QtGui.QMessageBox.Ok)
-        msg.setDefaultButton(QtGui.QMessageBox.Cancel)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Ok)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Cancel)
 
         return msg.exec_()  # The return value from executing the above message
 
     def show_create_key_cfg_file_warning(self):
-        msg = QtGui.QMessageBox()
+        msg = QtWidgets.QMessageBox()
 
-        msg.setIcon(QtGui.QMessageBox.Warning)
-        msg.setWindowIcon(QtGui.QIcon("bot_icon.jpg"))
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        msg.setWindowIcon(QtWidgets.QIcon("bot_icon.jpg"))
         msg.setWindowTitle("Create new meta file")
         msg.setText("Create a new meta file using the current disabled key and order settings?")
 
@@ -2639,8 +2635,8 @@ class MainWindow(QtGui.QMainWindow):
                                "for the current training data numpy file : "+str(self.train_file_name)+". "
                                "Please ensure that the numpy file is new and does not have any previous inputs.")
 
-        msg.setStandardButtons(QtGui.QMessageBox.Cancel | QtGui.QMessageBox.Ok)
-        msg.setDefaultButton(QtGui.QMessageBox.Cancel)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Cancel | QtWidgets.QMessageBox.Ok)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Cancel)
 
         return msg.exec_()  # The return value from executing the above message
 
@@ -2650,15 +2646,15 @@ class MainWindow(QtGui.QMainWindow):
 
     @staticmethod
     def show_key_order_warning():
-        msg = QtGui.QMessageBox()
+        msg = QtWidgets.QMessageBox()
 
-        msg.setIcon(QtGui.QMessageBox.Warning)
-        msg.setWindowIcon(QtGui.QIcon("bot_icon.jpg"))
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        msg.setWindowIcon(QtWidgets.QIcon("bot_icon.jpg"))
         msg.setWindowTitle("Enabled keys sharing same order")
         msg.setText("Please use unique order values for the enabled keys. Key order will be redistributed.")
 
-        msg.setStandardButtons(QtGui.QMessageBox.Ok)
-        msg.setDefaultButton(QtGui.QMessageBox.Ok)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Ok)
 
         return msg.exec_()  # The return value from executing the above message
 
@@ -3332,7 +3328,7 @@ class MainWindow(QtGui.QMainWindow):
                 self.send_pan_tilt_command(self.pan_angle,self.tilt_angle)
                 print("Left button released")
 
-        return QtGui.QMainWindow.eventFilter(self,source,event)  # This return is necessary
+        return QtWidgets.QMainWindow.eventFilter(self,source,event)  # This return is necessary
 
     def mouse_pos_from_start(self,mpx,mpy):  # Function to calculate the mouse postion from where the click happened
         self.mouse_x=mpx-self.start_x
@@ -3542,20 +3538,20 @@ class MainWindow(QtGui.QMainWindow):
             self.power_off_rpi()
 
     def reboot_rpi_message(self):  # Function to reboot the RPi
-        msg=QtGui.QMessageBox()
+        msg=QtWidgets.QMessageBox()
 
-        reboot_btn_msg=QtGui.QPushButton('Reboot')
+        reboot_btn_msg=QtWidgets.QPushButton('Reboot')
 
-        msg.setIcon(QtGui.QMessageBox.Question)
-        msg.setWindowIcon(QtGui.QIcon(":/Icons/bot_icon.jpg"))
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setWindowIcon(QtWidgets.QIcon(":/Icons/bot_icon.jpg"))
         msg.setWindowTitle("Reboot Raspberry Pi")
         msg.setText("Are you sure you want to reboot the Raspberry Pi?")
 
         msg.setInformativeText("The connection to the robot will be lost and reconnection will be required.")
 
-        msg.setStandardButtons(QtGui.QMessageBox.Cancel)
-        msg.addButton(reboot_btn_msg,QtGui.QMessageBox.YesRole)
-        msg.setDefaultButton(QtGui.QMessageBox.Cancel)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Cancel)
+        msg.addButton(reboot_btn_msg,QtWidgets.QMessageBox.YesRole)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Cancel)
 
         msg.exec_()  # The return value from executing the above message but return value is not used
 
@@ -3570,20 +3566,20 @@ class MainWindow(QtGui.QMainWindow):
             pass
 
     def reset_uc_message(self):  # Function to reset the arduino
-        msg = QtGui.QMessageBox()
+        msg = QtWidgets.QMessageBox()
 
-        reset_btn_msg = QtGui.QPushButton('Reset')
+        reset_btn_msg = QtWidgets.QPushButton('Reset')
 
-        msg.setIcon(QtGui.QMessageBox.Question)
-        msg.setWindowIcon(QtGui.QIcon(":/Icons/bot_icon.jpg"))
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setWindowIcon(QtWidgets.QIcon(":/Icons/bot_icon.jpg"))
         msg.setWindowTitle("Reset Microcontroller")
         msg.setText("Are you sure you want to reset the microcontroller?")
 
         msg.setInformativeText("The robot's movement will be disabled for some about of time as the reset completes.")
 
-        msg.setStandardButtons(QtGui.QMessageBox.Cancel)
-        msg.addButton(reset_btn_msg, QtGui.QMessageBox.YesRole)
-        msg.setDefaultButton(QtGui.QMessageBox.Cancel)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Cancel)
+        msg.addButton(reset_btn_msg, QtWidgets.QMessageBox.YesRole)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Cancel)
 
         msg.exec_()  # The return value from executing the above message but return value is not used
 
@@ -3598,20 +3594,20 @@ class MainWindow(QtGui.QMainWindow):
             pass
 
     def power_off_rpi(self):  # Function to power off the RPi
-        msg = QtGui.QMessageBox()
+        msg = QtWidgets.QMessageBox()
 
-        pwr_btn_msg = QtGui.QPushButton('Power Off')
+        pwr_btn_msg = QtWidgets.QPushButton('Power Off')
 
-        msg.setIcon(QtGui.QMessageBox.Warning)
-        msg.setWindowIcon(QtGui.QIcon(":/Icons/bot_icon.jpg"))
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        msg.setWindowIcon(QtWidgets.QIcon(":/Icons/bot_icon.jpg"))
         msg.setWindowTitle("Power Off Raspberry Pi")
         msg.setText("Are you sure you want to power off the Raspberry Pi?")
 
         msg.setInformativeText("The Raspberry Pi cannot be restarted and has to be manually turned on again.")
 
-        msg.setStandardButtons(QtGui.QMessageBox.Cancel)
-        msg.addButton(pwr_btn_msg, QtGui.QMessageBox.YesRole)
-        msg.setDefaultButton(QtGui.QMessageBox.Cancel)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Cancel)
+        msg.addButton(pwr_btn_msg, QtWidgets.QMessageBox.YesRole)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Cancel)
 
         msg.exec_()  # The return value from executing the above message but return value is not used
 
@@ -3633,7 +3629,7 @@ class MainWindow(QtGui.QMainWindow):
     @staticmethod
     def show_about_dialog():  # Show the about dialog :)
         from FumeBotGUI.FumeBotAbout_UI import Ui_AboutDialog
-        about_dialog=QtGui.QDialog()  # Object of the dialog
+        about_dialog=QtWidgets.QDialog()  # Object of the dialog
         about_ui=Ui_AboutDialog()   # Object of the about UI
         about_ui.setupUi(about_dialog)  # Setup the about UI
         about_ui.buttonBox.accepted.connect(about_dialog.close)  # Connect the dialog okay button to closing the dialog
@@ -3651,21 +3647,21 @@ class MainWindow(QtGui.QMainWindow):
         event.ignore()  # If the user cancelled application closing ignore the event
 
     def show_exit_message(self):  # Function get called in the close event
-        msg=QtGui.QMessageBox()
+        msg=QtWidgets.QMessageBox()
 
-        msg.setIcon(QtGui.QMessageBox.Warning)
-        msg.setWindowIcon(QtGui.QIcon(":/Icons/bot_icon.jpg"))
+        msg.setIcon(QtWidgets.QMessageBox.Warning)
+        msg.setWindowIcon(QtWidgets.QIcon(":/Icons/bot_icon.jpg"))
         msg.setWindowTitle("Exit")
         msg.setText("Are you sure you want to exit "+self.app_name+" ?")
 
         msg.setInformativeText("The connection to the robot will be terminated.")
 
-        msg.setStandardButtons(QtGui.QMessageBox.Yes | QtGui.QMessageBox.Cancel)
-        msg.setDefaultButton(QtGui.QMessageBox.Cancel)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Cancel)
+        msg.setDefaultButton(QtWidgets.QMessageBox.Cancel)
 
         retval=msg.exec_()  # The return value contains which button was was pressed
 
-        if retval == QtGui.QMessageBox.Yes:
+        if retval == QtWidgets.QMessageBox.Yes:
             print("Application exiting")
             # The thread for the socket image and data can be stopped here but since the thread is daemon it not needed
 
@@ -3682,7 +3678,7 @@ class MainWindow(QtGui.QMainWindow):
 
 
 if __name__ == '__main__':
-    app=QtGui.QApplication(sys.argv)
+    app=QtWidgets.QApplication(sys.argv)
     window=MainWindow()
     window.show()
     sys.exit(app.exec_())

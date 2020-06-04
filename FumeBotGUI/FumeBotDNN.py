@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 import tensorflow as tf
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 from keras.models import model_from_json
 

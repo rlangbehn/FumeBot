@@ -13,7 +13,7 @@ Date        :  5-4-2018
 import socket
 import time
 from threading import Thread
-from PyQt4 import QtCore
+from PyQt5 import QtCore
 
 
 class SockComm(QtCore.QObject):
@@ -243,9 +243,3 @@ if __name__ == '__main__':
 
     # FOR TESTING ONLY!
     time.sleep(1000000)  # If main stop, thread stops as daemon set to true
-
-
-
-
-
-
