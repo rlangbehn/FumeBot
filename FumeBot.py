@@ -2607,7 +2607,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg = QtWidgets.QMessageBox()
 
         msg.setIcon(QtWidgets.QMessageBox.Warning)
-        msg.setWindowIcon(QtWidgets.QIcon("bot_icon.jpg"))
+        msg.setWindowIcon(QtGui.QIcon("bot_icon.jpg"))
         msg.setWindowTitle("Key configuration mismatch warning")
         msg.setText("Key configuration mismatch detected. Do you want to use the key configuration "
                     "associated with the loaded numpy file?")
@@ -2627,7 +2627,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg = QtWidgets.QMessageBox()
 
         msg.setIcon(QtWidgets.QMessageBox.Warning)
-        msg.setWindowIcon(QtWidgets.QIcon("bot_icon.jpg"))
+        msg.setWindowIcon(QtGui.QIcon("bot_icon.jpg"))
         msg.setWindowTitle("Create new meta file")
         msg.setText("Create a new meta file using the current disabled key and order settings?")
 
@@ -2649,7 +2649,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg = QtWidgets.QMessageBox()
 
         msg.setIcon(QtWidgets.QMessageBox.Warning)
-        msg.setWindowIcon(QtWidgets.QIcon("bot_icon.jpg"))
+        msg.setWindowIcon(QtGui.QIcon("bot_icon.jpg"))
         msg.setWindowTitle("Enabled keys sharing same order")
         msg.setText("Please use unique order values for the enabled keys. Key order will be redistributed.")
 
@@ -3543,7 +3543,7 @@ class MainWindow(QtWidgets.QMainWindow):
         reboot_btn_msg=QtWidgets.QPushButton('Reboot')
 
         msg.setIcon(QtWidgets.QMessageBox.Question)
-        msg.setWindowIcon(QtWidgets.QIcon(":/Icons/bot_icon.jpg"))
+        msg.setWindowIcon(QtGui.QIcon(":/Icons/bot_icon.jpg"))
         msg.setWindowTitle("Reboot Raspberry Pi")
         msg.setText("Are you sure you want to reboot the Raspberry Pi?")
 
@@ -3571,7 +3571,7 @@ class MainWindow(QtWidgets.QMainWindow):
         reset_btn_msg = QtWidgets.QPushButton('Reset')
 
         msg.setIcon(QtWidgets.QMessageBox.Question)
-        msg.setWindowIcon(QtWidgets.QIcon(":/Icons/bot_icon.jpg"))
+        msg.setWindowIcon(QtGui.QIcon(":/Icons/bot_icon.jpg"))
         msg.setWindowTitle("Reset Microcontroller")
         msg.setText("Are you sure you want to reset the microcontroller?")
 
@@ -3599,7 +3599,7 @@ class MainWindow(QtWidgets.QMainWindow):
         pwr_btn_msg = QtWidgets.QPushButton('Power Off')
 
         msg.setIcon(QtWidgets.QMessageBox.Warning)
-        msg.setWindowIcon(QtWidgets.QIcon(":/Icons/bot_icon.jpg"))
+        msg.setWindowIcon(QtGui.QIcon(":/Icons/bot_icon.jpg"))
         msg.setWindowTitle("Power Off Raspberry Pi")
         msg.setText("Are you sure you want to power off the Raspberry Pi?")
 
@@ -3650,7 +3650,7 @@ class MainWindow(QtWidgets.QMainWindow):
         msg=QtWidgets.QMessageBox()
 
         msg.setIcon(QtWidgets.QMessageBox.Warning)
-        msg.setWindowIcon(QtWidgets.QIcon(":/Icons/bot_icon.jpg"))
+        msg.setWindowIcon(QtGui.QIcon(":/Icons/bot_icon.jpg"))
         msg.setWindowTitle("Exit")
         msg.setText("Are you sure you want to exit "+self.app_name+" ?")
 
