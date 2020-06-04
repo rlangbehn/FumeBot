@@ -1,4 +1,3 @@
-
 """
 FUMEBOT DATA SAVER
 
@@ -23,45 +22,45 @@ from PyQt5 import QtCore
 
 class FumeBotVideoSaver:  # For saving the video
 
-    def __init__(self,name='Video.avi',path='~\\Documents\\FumeBot\\Videos',width=1280,height=720,fps=20):
+    def __init__(self, name='Video.avi', path='~\\Documents\\FumeBot\\Videos', width=1280, height=720, fps=20):
 
-        self.vid_file_name=name
-        self.vid_path=os.path.expanduser(path)
-        self.width=width
-        self.height=height
-        self.fps=fps
+        self.vid_file_name = name
+        self.vid_path = os.path.expanduser(path)
+        self.width = width
+        self.height = height
+        self.fps = fps
 
-        self.frame_count=0
+        self.frame_count = 0
 
-        self.vid_path_to_file=os.path.join(self.vid_path,self.vid_file_name) # This is the final video file path
-        self.path_to_file_exists=False
+        self.vid_path_to_file = os.path.join(self.vid_path, self.vid_file_name)  # This is the final video file path
+        self.path_to_file_exists = False
 
         try:
             os.makedirs(self.vid_path)
             print("Video directory does not exist, making new directory")
-            self.path_to_file_exists=False
+            self.path_to_file_exists = False
         except FileExistsError:
             print("Video storage directory already exists")
-            self.path_to_file_exists=True
+            self.path_to_file_exists = True
 
-        self.fourcc=cv2.VideoWriter_fourcc('D','I','V','X')
-        self.vid_out=cv2.VideoWriter()
+        self.fourcc = cv2.VideoWriter_fourcc('D', 'I', 'V', 'X')
+        self.vid_out = cv2.VideoWriter()
 
     def get_file_path_status(self):  # Function to say whether the file path had to be created or not and the path
         return self.path_to_file_exists, self.vid_path
 
-    def change_video_save_prop(self,name,path,width,height,fps):  # Function to change video properties
+    def change_video_save_prop(self, name, path, width, height, fps):  # Function to change video properties
 
         # Video file is closed to a start a new file with new properties
         self.close_video_file()
 
-        self.vid_file_name=name
-        self.vid_path=os.path.expanduser(path)
-        self.width=width
-        self.height=height
-        self.fps=fps
+        self.vid_file_name = name
+        self.vid_path = os.path.expanduser(path)
+        self.width = width
+        self.height = height
+        self.fps = fps
 
-        self.vid_path_to_file = os.path.join(self.vid_path,self.vid_file_name)
+        self.vid_path_to_file = os.path.join(self.vid_path, self.vid_file_name)
         self.path_to_file_exists = False
 
         try:
@@ -77,13 +76,13 @@ class FumeBotVideoSaver:  # For saving the video
         if not self.vid_out.isOpened():  # This if statement is executed once
             print("Video writer was not opened. Opening...")
 
-            temp_vid_path_to_file=self.vid_path_to_file
+            temp_vid_path_to_file = self.vid_path_to_file
 
             if timestamped is True:
-                timestamp_str=datetime.datetime.now().strftime("-%Y-%B-%d-%H-%M-%S")+'.avi'
-                temp_vid_path_to_file=self.vid_path_to_file.replace('.avi',timestamp_str)
+                timestamp_str = datetime.datetime.now().strftime("-%Y-%B-%d-%H-%M-%S") + '.avi'
+                temp_vid_path_to_file = self.vid_path_to_file.replace('.avi', timestamp_str)
 
-            retval=self.vid_out.open(temp_vid_path_to_file, self.fourcc, self.fps, (self.width, self.height))
+            retval = self.vid_out.open(temp_vid_path_to_file, self.fourcc, self.fps, (self.width, self.height))
 
             if retval is True:
                 print("Video writer opened")
@@ -102,7 +101,7 @@ class FumeBotVideoSaver:  # For saving the video
         if self.vid_out.isOpened():
             print("Video writer closed")
             self.vid_out.release()
-            self.frame_count=0  # Reset the counter to zero
+            self.frame_count = 0  # Reset the counter to zero
 
             return True  # If the video is closed properly
 
@@ -115,43 +114,43 @@ class FumeBotVideoSaver:  # For saving the video
 
 class FumeBotTrainingDataSaver:  # To save the training data
 
-    def __init__(self,name='training_data.npy',path='~\\Documents\\FumeBot\\Training',saves_ps=100):
+    def __init__(self, name='training_data.npy', path='~\\Documents\\FumeBot\\Training', saves_ps=100):
 
-        self.train_file_name=name
-        self.train_path=os.path.expanduser(path)
-        self.training_data=[]
-        self.saves_per_every=saves_ps  # Save the training data per every X amount of data
+        self.train_file_name = name
+        self.train_path = os.path.expanduser(path)
+        self.training_data = []
+        self.saves_per_every = saves_ps  # Save the training data per every X amount of data
 
-        self.train_path_to_file=os.path.join(self.train_path,self.train_file_name) # Final path to the file
+        self.train_path_to_file = os.path.join(self.train_path, self.train_file_name)  # Final path to the file
 
-        self.path_to_file_exists=False
+        self.path_to_file_exists = False
 
-        self.training_file_loaded=False  # To say whether a file has already been loaded or not
+        self.training_file_loaded = False  # To say whether a file has already been loaded or not
 
         # For the meta file
-        self.meta_file_name=self.train_file_name.replace(".npy",".meta")
-        self.meta_file_path=self.train_path
-        self.meta_path_to_file=os.path.join(self.meta_file_path,self.meta_file_name)
+        self.meta_file_name = self.train_file_name.replace(".npy", ".meta")
+        self.meta_file_path = self.train_path
+        self.meta_path_to_file = os.path.join(self.meta_file_path, self.meta_file_name)
 
-        self.meta_file=None
+        self.meta_file = None
 
-        self.meta_file_available=False
+        self.meta_file_available = False
 
-        self.key_order_from_meta={}
-        self.disabled_key_from_meta={}
+        self.key_order_from_meta = {}
+        self.disabled_key_from_meta = {}
 
         try:
             os.makedirs(self.train_path)
             print("Training data storage directory does not exist, making new directory")
-            self.path_to_file_exists=False
+            self.path_to_file_exists = False
         except FileExistsError:
             print("Training data storage directory already exists")
-            self.path_to_file_exists=True
+            self.path_to_file_exists = True
 
     def get_path_to_file_status(self):  # To check whether the file had to be created or not
-        return self.path_to_file_exists,self.train_path
+        return self.path_to_file_exists, self.train_path
 
-    def change_train_save_prop(self,name,path,saves_ps):  # Function to change the properties of the file
+    def change_train_save_prop(self, name, path, saves_ps):  # Function to change the properties of the file
         """
         Call this function when changing any of the properties of the file.
         Do not call the init method of this class as different functionality might be
@@ -160,7 +159,7 @@ class FumeBotTrainingDataSaver:  # To save the training data
         """
         if self.training_file_loaded:  # If a file is already loaded save that file before changing properties
             print("Training file already loaded, saving current file")
-            np.save(self.train_path_to_file,self.training_data)
+            np.save(self.train_path_to_file, self.training_data)
             print("Training file saved, changing properties")
 
         self.train_file_name = name
@@ -168,7 +167,7 @@ class FumeBotTrainingDataSaver:  # To save the training data
         self.training_data = []
         self.saves_per_every = saves_ps  # Save the training data per every X amount of data
 
-        self.train_path_to_file = os.path.join(self.train_path,self.train_file_name)
+        self.train_path_to_file = os.path.join(self.train_path, self.train_file_name)
 
         self.path_to_file_exists = False
 
@@ -182,7 +181,7 @@ class FumeBotTrainingDataSaver:  # To save the training data
             print("Training data storage directory already exists")
             self.path_to_file_exists = True
 
-    def open_training_file(self,file_name,file_path):  # Function to open and load the training file
+    def open_training_file(self, file_name, file_path):  # Function to open and load the training file
 
         """
         This function should be called only once as it checks whether
@@ -190,24 +189,24 @@ class FumeBotTrainingDataSaver:  # To save the training data
         in the save training data function.
         """
 
-        self.train_file_name=file_name
-        self.train_path=os.path.expanduser(file_path)
-        self.training_data=[]
+        self.train_file_name = file_name
+        self.train_path = os.path.expanduser(file_path)
+        self.training_data = []
 
-        self.train_path_to_file=os.path.join(self.train_path,self.train_file_name)
+        self.train_path_to_file = os.path.join(self.train_path, self.train_file_name)
 
         if os.path.isfile(self.train_path_to_file):
             print("File is available, loading previous training data")
-            self.training_data=list(np.load(self.train_path_to_file))
-            self.training_file_loaded=True
+            self.training_data = list(np.load(self.train_path_to_file))
+            self.training_file_loaded = True
         else:
             print("File not available, new file will be created")
-            self.training_data=[]  # Reset the training data if file is not found
-            self.training_file_loaded=False
+            self.training_data = []  # Reset the training data if file is not found
+            self.training_file_loaded = False
 
         return self.training_file_loaded, len(self.training_data)
 
-    def save_training_data(self,train_input,train_label):  # Function to save data continuously
+    def save_training_data(self, train_input, train_label):  # Function to save data continuously
 
         """
         This function can be called multiple times to save the training input
@@ -216,63 +215,63 @@ class FumeBotTrainingDataSaver:  # To save the training data
         a new file is created.
         """
 
-        self.training_data.append([train_input,train_label])
+        self.training_data.append([train_input, train_label])
 
-        save_done=False
+        save_done = False
 
         if len(self.training_data) == self.saves_per_every:
-            np.save(self.train_path_to_file,self.training_data)
-            save_done=True
+            np.save(self.train_path_to_file, self.training_data)
+            save_done = True
 
-        return save_done,len(self.training_data)  # Return whether file was saved and size of the training file
+        return save_done, len(self.training_data)  # Return whether file was saved and size of the training file
 
     def close_training_data_file(self):  # Function to save the training data if data recording was saved
-        np.save(self.train_path_to_file,self.training_data)
+        np.save(self.train_path_to_file, self.training_data)
 
     # For the meta file
-    def open_meta_file_read_only(self,file_name,file_path):  # Function to open a file in read only mode
-        self.meta_file_name=file_name.replace(".npy",".meta")
-        self.meta_file_path=os.path.expanduser(file_path)
+    def open_meta_file_read_only(self, file_name, file_path):  # Function to open a file in read only mode
+        self.meta_file_name = file_name.replace(".npy", ".meta")
+        self.meta_file_path = os.path.expanduser(file_path)
 
-        self.meta_path_to_file=os.path.join(self.meta_file_path,self.meta_file_name)
+        self.meta_path_to_file = os.path.join(self.meta_file_path, self.meta_file_name)
 
-        self.meta_file_available=False
+        self.meta_file_available = False
 
         if os.path.isfile(self.meta_path_to_file):
-            self.meta_file_available=True
-            self.meta_file=open(self.meta_path_to_file,'r')  # Opened in read mode so is not accidentally overwritten
+            self.meta_file_available = True
+            self.meta_file = open(self.meta_path_to_file, 'r')  # Opened in read mode so is not accidentally overwritten
             print("Meta file exists for the selected numpy file")
         else:
             print("Meta file not available")
-            self.meta_file_available=False
+            self.meta_file_available = False
 
         return self.meta_file_available
 
-    def open_meta_file_write_only(self,file_name,file_path):  # Function to open a file in write only mode
-        if self.open_meta_file_read_only(file_name,file_path) is False:
-            self.meta_file=open(self.meta_path_to_file,'w')
+    def open_meta_file_write_only(self, file_name, file_path):  # Function to open a file in write only mode
+        if self.open_meta_file_read_only(file_name, file_path) is False:
+            self.meta_file = open(self.meta_path_to_file, 'w')
 
-    def write_cfg_to_meta_file(self,paren_file_name,key_order_dict,disable_key_dict):  # Write to file
-        self.meta_file.write(str(paren_file_name)+"\n")
+    def write_cfg_to_meta_file(self, paren_file_name, key_order_dict, disable_key_dict):  # Write to file
+        self.meta_file.write(str(paren_file_name) + "\n")
         self.meta_file.write(self.dict_to_string(key_order_dict))  # 1st one
         self.meta_file.write(self.dict_to_string(disable_key_dict))  # 2nd one
 
         self.close_meta_file()  # Close the file automatically
 
     def read_cfg_from_meta_file(self):  # Read from file
-        name=self.meta_file.readline()    # File name string
-        ko_str=self.meta_file.readline()  # Key order string
-        dk_str=self.meta_file.readline()  # Disabled key string
+        name = self.meta_file.readline()  # File name string
+        ko_str = self.meta_file.readline()  # Key order string
+        dk_str = self.meta_file.readline()  # Disabled key string
 
         self.close_meta_file()  # Close the file automatically
 
-        self.key_order_from_meta=self.convert_dict_value_to_int(self.string_to_dict(inp_str=ko_str))
-        self.disabled_key_from_meta=self.convert_dict_value_to_bool(self.string_to_dict(inp_str=dk_str))
+        self.key_order_from_meta = self.convert_dict_value_to_int(self.string_to_dict(inp_str=ko_str))
+        self.disabled_key_from_meta = self.convert_dict_value_to_bool(self.string_to_dict(inp_str=dk_str))
 
-        return name, self.key_order_from_meta,self.disabled_key_from_meta
+        return name, self.key_order_from_meta, self.disabled_key_from_meta
 
     @staticmethod
-    def compare_dicts(dict_1,dict_2):  # Function to compare dictionaries
+    def compare_dicts(dict_1, dict_2):  # Function to compare dictionaries
         if dict_1 == dict_2:
             return True
         else:
@@ -326,50 +325,50 @@ class ViewTrainingData:  # For viewing the training data
     in the GUI application in a window which is not implemented in the App.
     """
 
-    newFrame = QtCore.pyqtSignal(np.ndarray,np.ndarray)
+    newFrame = QtCore.pyqtSignal(np.ndarray, np.ndarray)
 
-    def __init__(self,file_name,file_path):
+    def __init__(self, file_name, file_path):
 
-        self.view_file_name=file_name
-        self.view_file_path=os.path.expanduser(file_path)
+        self.view_file_name = file_name
+        self.view_file_path = os.path.expanduser(file_path)
 
-        self.view_path_to_file=os.path.join(self.view_file_path,self.view_file_name)
+        self.view_path_to_file = os.path.join(self.view_file_path, self.view_file_name)
 
         self.view_thread = threading.Thread(target=self.get_training_data)
         self.view_thread.setDaemon(True)
         self.view_thread_run = False
 
-        self.training_data=np.ndarray
+        self.training_data = np.ndarray
 
-        self.view_completed_once=False
+        self.view_completed_once = False
 
     def start_view_thread(self):  # Function to start the view thread
         if not self.view_thread.isAlive():
-            self.view_thread_run=True
+            self.view_thread_run = True
             self.view_thread.start()
 
     def stop_view_thread(self):  # Function to stop the view thread
         if self.view_thread.isAlive():
-            self.view_thread_run=False
+            self.view_thread_run = False
 
     def get_training_data(self):  # Function is threaded
         print("View thread started")
 
-        self.training_data=np.load(self.view_path_to_file)
+        self.training_data = np.load(self.view_path_to_file)
 
         while self.view_thread_run is True:
 
             if not self.view_completed_once:
 
                 for data in self.training_data:
-                    frame_train_input=data[0]
-                    key_label=data[1]
+                    frame_train_input = data[0]
+                    key_label = data[1]
 
                     if self.view_thread_run is True:
                         break
 
-                    self.newFrame.emit(frame_train_input,key_label)
+                    self.newFrame.emit(frame_train_input, key_label)
 
-                self.view_completed_once=True
+                self.view_completed_once = True
 
         print("View thread exited")

@@ -1649,7 +1649,9 @@ class Ui_mainWindow(object):
         self.actionRebootRPi.setText(_translate("mainWindow", "Reboot Raspberry Pi"))
         self.actionResetuC.setText(_translate("mainWindow", "Reset Microcontroller"))
         self.actionPower_Off_Raspberry_Pi.setText(_translate("mainWindow", "Power Off Raspberry Pi"))
-from . import FumeBotImages_rc
+
+
+from FumeBotGUI import FumeBotImages_rc
 
 
 if __name__ == "__main__":

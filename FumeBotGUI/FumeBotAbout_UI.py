@@ -72,7 +72,9 @@ class Ui_AboutDialog(object):
         _translate = QtCore.QCoreApplication.translate
         AboutDialog.setWindowTitle(_translate("AboutDialog", "About"))
         self.aboutlabel.setText(_translate("AboutDialog", "<html><head/><body><p align=\"center\"><span style=\" font-size:10pt; font-weight:600;\">This application is used for controlling FumeBot an Arduino and</span></p><p align=\"center\"><span style=\" font-size:10pt; font-weight:600;\">Raspberry Pi based robot.</span></p><p align=\"center\"><span style=\" font-size:10pt; font-weight:600;\">Copyright © 2018 Ajith Thomas. All Rights Reserved.</span></p></body></html>"))
-from . import FumeBotImages_rc
+
+
+from FumeBotGUI import FumeBotImages_rc
 
 
 if __name__ == "__main__":
