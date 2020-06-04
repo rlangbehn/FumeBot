@@ -957,7 +957,7 @@ class MainWindow(QtWidgets.QMainWindow):
     @staticmethod
     def convert_frame_to_pix(frame_bgr): # Function to convert cv2 frame to pix format to be displayed in GUI
         frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)  # BGR to RGB
-        image = QtWidgets.QImage(frame_rgb, frame_rgb.shape[1], frame_rgb.shape[0], QtWidgets.QImage.Format_RGB888)
+        image = QtGui.QImage(frame_rgb, frame_rgb.shape[1], frame_rgb.shape[0], QtGui.QImage.Format_RGB888)
         pixel = QtWidgets.QPixmap.fromImage(image)
         return pixel  # The pix formatted image ready to be displayed
 
